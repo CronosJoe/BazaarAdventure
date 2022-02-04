@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class MerchantScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public InventoryObject merchantInventory; //each merchants inventory
+    public float favoredItemModifier;
+    public float unfavoredItemMod;
+    public float exchangeRate;
+    [SerializeField] GameManager gameManager;
+    [SerializeField] ItemType favoredItem;
+    public void ItemBought(int itemIndex, int amount) //merchant selling to player
     {
-        
+        if (gameManager.GetPlayerMoney() >= merchantInventory.Container[itemIndex].item.cost)
+        {
+            gameManager.playerInventory.AddItem(merchantInventory.Container[itemIndex].item, amount);
+            merchantInventory.RemoveItemAmount(merchantInventory.Container[itemIndex].item, amount);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    public void ItemSold(int itemIndex, int amount) //player selling item to the merchant
     {
-        
+        //hacker handling could go here but atm I trust my player
+        gameManager.AddPlayerMoney(gameManager.playerInventory.Container[itemIndex].item.cost*amount);
+        gameManager.playerInventory.RemoveItemAmount(gameManager.playerInventory.Container[itemIndex].item, amount);
+    }
+    public int GetItemCost(ItemObject item, int amount) 
+    {
+        if(item.type == favoredItem) 
+        {
+            return (int)((exchangeRate/item.cost) + (1/favoredItemModifier) * amount);
+        }
+        else 
+        {
+            return (int)((exchangeRate / item.cost) - (1 / unfavoredItemMod) * amount);
+        }
     }
 }

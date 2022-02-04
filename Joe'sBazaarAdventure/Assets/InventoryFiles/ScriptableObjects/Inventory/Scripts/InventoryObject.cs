@@ -38,6 +38,20 @@ public class InventoryObject : ScriptableObject
             Container.RemoveAt(index);
         }
     }
+    public void RemoveItemAmount(ItemObject _item, int _amount) 
+    {
+        for (int i = 0; i < Container.Count; i++)
+        {
+            if (Container[i].item == _item)
+            {
+                Container[i].RemoveAmount(_amount);
+                if (Container[i].amount <= 0) 
+                {
+                    RemoveAtIndex(i);
+                }
+            }
+        }
+    }
     //Clearing the inventory to completely empty it
     public void ClearInventory() 
     {
