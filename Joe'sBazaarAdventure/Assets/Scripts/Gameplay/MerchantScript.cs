@@ -28,11 +28,11 @@ public class MerchantScript : MonoBehaviour
     {
         if(item.type == favoredItem) 
         {
-            return (int)((exchangeRate/item.cost) + (1/favoredItemModifier) * amount);
+            return (int)((exchangeRate + favoredItemModifier) * item.cost * amount);
         }
         else 
         {
-            return (int)((exchangeRate / item.cost) - (1 / unfavoredItemMod) * amount);
+            return (int)((exchangeRate - unfavoredItemMod) * item.cost * amount);
         }
     }
 }
