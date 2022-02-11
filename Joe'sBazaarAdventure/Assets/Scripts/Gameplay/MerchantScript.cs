@@ -30,7 +30,7 @@ public class MerchantScript : MonoBehaviour
         {
             return (int)((exchangeRate + favoredItemModifier) * item.cost * amount);
         }
-        else 
+        else
         {
             return (int)((exchangeRate - unfavoredItemMod) * item.cost * amount);
         }
