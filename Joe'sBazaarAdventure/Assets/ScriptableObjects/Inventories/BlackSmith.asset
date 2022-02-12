@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c9da44cd348a14396819bafb44d4c1, type: 3}
   m_Name: BlackSmith
   m_EditorClassIdentifier: 
-  Container: []
-  inventorySize: 0
+  Container:
+  - item: {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
+    amount: 2
+  - item: {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
+    amount: 1
+  inventorySize: 999

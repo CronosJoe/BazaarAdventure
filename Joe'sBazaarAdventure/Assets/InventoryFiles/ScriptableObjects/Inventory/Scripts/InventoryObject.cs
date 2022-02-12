@@ -32,7 +32,7 @@ public class InventoryObject : ScriptableObject
     //removing items
     public void RemoveAtIndex(int index)
     {
-        if(!(Container.Count>=index) && !(index < 0))
+        if((index>= 0)&&(index<Container.Count) )
         {
             //For your game add functionality in a shop or here to sell the item or simply drop it
             Container.RemoveAt(index);
@@ -40,7 +40,7 @@ public class InventoryObject : ScriptableObject
     }
     public void RemoveItemAmount(ItemObject _item, int _amount) 
     {
-        for (int i = 0; i < Container.Count; i++)
+        for (int i = 0; i < Container.Count; i++) //should add in handling for if we go over a stack amount then might need to remove some from another stack
         {
             if (Container[i].item == _item)
             {
@@ -49,6 +49,7 @@ public class InventoryObject : ScriptableObject
                 {
                     RemoveAtIndex(i);
                 }
+                return;
             }
         }
     }

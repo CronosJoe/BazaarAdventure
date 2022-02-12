@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5c9da44cd348a14396819bafb44d4c1, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 7698b44e5221307479111f8effbfaec3, type: 3}
+  m_Name: JimmyTheBlacksmith
   m_EditorClassIdentifier: 
-  Container: []
-  inventorySize: 0
+  merchantInventory: {fileID: 11400000, guid: f4cb58095db811c42a1435cfaa580031, type: 2}
+  favoredItemModifier: 20
+  unfavoredItemMod: 30
+  exchangeRate: 6
+  favoredItem: 0

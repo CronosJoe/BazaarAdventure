@@ -9,7 +9,7 @@ public enum ItemType //I will be providing base types of items you can expand up
 }
 public abstract class ItemObject : ScriptableObject
 {
-    public GameObject prefab;
+    public string name;
     public int cost; //this is a standard in most games with inventories so this is what I'll use to sort the list
     public ItemType type; //storing this items type
     [TextArea(15, 20)]
