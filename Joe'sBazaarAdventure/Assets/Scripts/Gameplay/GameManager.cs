@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public GameState currentState;
     [SerializeField]
     private int playerMoney = 0;
+    [SerializeField]
+    private int playerReliefPackage;
 
     public int PlayerMoney => playerMoney;
 
@@ -55,6 +57,7 @@ public class GameManager : MonoBehaviour
     public Scrollbar amountSlider;
     public Button confirmButton;
     public TMP_Text playerBalance;
+    public SpriteRenderer merchantDisplay;
 
     private int currentItemIndex;
 
@@ -74,7 +77,16 @@ public class GameManager : MonoBehaviour
         DisplayInventory();
         UpdatePlayerBalanceDisplay();
     }
-
+    public void StartNewDay() 
+    {
+        //add a fine so the player can eventually "die" from not being rich
+        AddPlayerMoney(playerReliefPackage);
+        playerReliefPackage /= 2;
+        for (int i = 0; i < merchants.Count; i++) 
+        {
+            merchants[i].NewDayRestock();
+        }
+    }
     public void AddPlayerMoney(int amount)
     {
         playerMoney += amount;
@@ -89,6 +101,11 @@ public class GameManager : MonoBehaviour
         currentMerchantIndex = Mathf.Clamp(currentMerchantIndex + increment, 0, merchants.Count-1);
         currentState = GameState.Buy;
         DisplayInventory();
+        DisplayCurrentMerchant();
+    }
+    public void DisplayCurrentMerchant() 
+    {
+        merchantDisplay.sprite = CurrentMerchant.merchantSprite;
     }
     public void ToggleSelling()
     {

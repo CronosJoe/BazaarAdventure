@@ -5,6 +5,7 @@ public enum ItemType //I will be providing base types of items you can expand up
 {
     Food,
     Equipment,
+    Potions,
     Default
 }
 public abstract class ItemObject : ScriptableObject

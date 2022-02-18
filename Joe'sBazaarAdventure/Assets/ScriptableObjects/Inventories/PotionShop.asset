@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5c9da44cd348a14396819bafb44d4c1, type: 3}
-  m_Name: BlackSmith
+  m_Name: PotionShop
   m_EditorClassIdentifier: 
   Container:
-  - item: {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
-    amount: 1
-  - item: {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
-    amount: 1
-  inventorySize: 6
+  - item: {fileID: 11400000, guid: 2b86676ebf780e54f8325f66f1fbf7cb, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: e639a901ad81bc04aa2db6724f846dd4, type: 2}
+    amount: 4
+  inventorySize: 2

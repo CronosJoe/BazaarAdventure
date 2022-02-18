@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7698b44e5221307479111f8effbfaec3, type: 3}
+  m_Name: PotionMaker
+  m_EditorClassIdentifier: 
+  merchantInventory: {fileID: 11400000, guid: 69e0a830fac54ae49a05b841f07f7a38, type: 2}
+  merchantSprite: {fileID: -3476779656437788293, guid: 8e8bf2bda10ba634595e32e1adf4719f, type: 3}
+  sellableItems:
+  - {fileID: 11400000, guid: 2b86676ebf780e54f8325f66f1fbf7cb, type: 2}
+  - {fileID: 11400000, guid: e639a901ad81bc04aa2db6724f846dd4, type: 2}
+  favoredItemModifier: 15
+  unfavoredItemMod: 20
+  exchangeRate: 5
+  favoredItem: 0

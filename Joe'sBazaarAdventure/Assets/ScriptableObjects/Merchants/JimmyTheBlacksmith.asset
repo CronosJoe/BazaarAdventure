@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: JimmyTheBlacksmith
   m_EditorClassIdentifier: 
   merchantInventory: {fileID: 11400000, guid: f4cb58095db811c42a1435cfaa580031, type: 2}
+  merchantSprite: {fileID: 1944592574858670343, guid: d5992b859c1cfbd48b0b499fdceea24a, type: 3}
+  sellableItems:
+  - {fileID: 11400000, guid: 4c01b5d987cdecc4b99f0676030e2e3e, type: 2}
+  - {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
   favoredItemModifier: 20
   unfavoredItemMod: 30
   exchangeRate: 6
