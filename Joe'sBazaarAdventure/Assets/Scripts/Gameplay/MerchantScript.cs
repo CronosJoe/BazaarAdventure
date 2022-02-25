@@ -14,6 +14,7 @@ public class MerchantScript : ScriptableObject
     public float favoredItemModifier;
     public float unfavoredItemMod;
     public float exchangeRate;
+    public ItemType FavoredItem => favoredItem;
     [SerializeField] ItemType favoredItem;
     public void ItemBought(int itemIndex, int amount) //merchant selling to player
     {

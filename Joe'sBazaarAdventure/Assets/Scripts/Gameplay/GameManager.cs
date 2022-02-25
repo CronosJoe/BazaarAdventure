@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Random = System.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,21 @@ public class GameManager : MonoBehaviour
     public InventoryObject playerInventory;
     public int currentMerchantIndex;
     public List<MerchantScript> merchants = new List<MerchantScript>();
+
+    [Space(10)]
+    public int DayCount;
+    private bool QuestRunning = false;
+    [SerializeField] private int costOfAdventure;
+    [SerializeField] private Button confirmQuest;
+    private int QuestDayGoal;
+    private int daysOnQuest;
+    public ItemType goldenType;
+    private ItemType selectedType;
+    private int currentQuestCost;
+    [SerializeField] private GameObject questPanel;
+    [SerializeField] private GameObject questButtons;
+    [SerializeField] private GameObject questDisplay;
+    [SerializeField] private GameObject itemTypeOfDay;
     public MerchantScript CurrentMerchant
     {
         get => merchants[currentMerchantIndex];
@@ -79,12 +95,22 @@ public class GameManager : MonoBehaviour
     }
     public void StartNewDay() 
     {
+        Random rand = new Random();
         //add a fine so the player can eventually "die" from not being rich
         AddPlayerMoney(playerReliefPackage);
+        UpdatePlayerBalanceDisplay();
         playerReliefPackage /= 2;
         for (int i = 0; i < merchants.Count; i++) 
         {
             merchants[i].NewDayRestock();
+        }
+        DayCount++;
+        goldenType = (ItemType)rand.Next(0, 5);//we have 4 items, so max exclusive
+        questDisplay.GetComponent<TMP_Text>().text = QuestDayGoal-DayCount + " Days Left!";
+        itemTypeOfDay.GetComponent<TMP_Text>().text = "Item Type of the Day: " + goldenType;
+        if (DayCount == QuestDayGoal) 
+        {
+            GiveQuestReward();
         }
     }
     public void AddPlayerMoney(int amount)
@@ -137,7 +163,8 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < CurrentInventory.Container.Count; i++) 
         {
             displayedInventorySlots[i].gameObject.SetActive(true);
-            displayedInventorySlots[i].textToUpdate.SetText(CurrentInventory.Container[i].item.name + " $" + CurrentInventory.Container[i].item.cost);
+            displayedInventorySlots[i].textToUpdate.SetText(CurrentInventory.Container[i].item.itemName + " $" + CurrentInventory.Container[i].item.cost);
+            
         }
         if (displayedInventorySlots.Count > CurrentInventory.Container.Count) 
         {
@@ -193,10 +220,6 @@ public class GameManager : MonoBehaviour
 
                     UpdateCurrentInventory();
                 }
-                else 
-                {
-                    Debug.Log("not enough cash money");
-                }
                 break;
             case GameState.Sell:
                 AddPlayerMoney(itemQuantity * curItem.item.cost);
@@ -206,5 +229,45 @@ public class GameManager : MonoBehaviour
         }
         UpdatePlayerBalanceDisplay();
         ToggleActive();
+    }
+
+    public void ToggleQuest() 
+    {
+        questPanel.SetActive(!questPanel.activeSelf);
+        if (questPanel.activeSelf) 
+        {
+            confirmQuest.interactable = false;
+            questDisplay.SetActive(QuestRunning);
+            questButtons.SetActive(!QuestRunning);
+        }
+    }
+    public void AdjustQuestLength(int selection) 
+    {
+        currentQuestCost = (selection + 1) * costOfAdventure;
+        daysOnQuest = selection + 1;
+        QuestDayGoal = DayCount + daysOnQuest;
+        confirmQuest.interactable = currentQuestCost <= playerMoney;
+    }
+    public void ConfirmQuest() 
+    {
+        selectedType = goldenType;
+        playerMoney -= currentQuestCost;
+        QuestRunning = true;
+        questDisplay.GetComponent<TMP_Text>().text = QuestDayGoal - DayCount + " Days Left!";
+        questDisplay.SetActive(QuestRunning);
+        questButtons.SetActive(!QuestRunning);
+    }
+    public void GiveQuestReward()
+    {
+        Random rand = new Random();
+        for(int i =0; i < merchants.Count; i++) 
+        {
+            if(merchants[i].FavoredItem == selectedType) 
+            {
+                ItemObject chosenItem = merchants[i].sellableItems[rand.Next(0, merchants[i].sellableItems.Count)];
+                playerInventory.AddItem(chosenItem, daysOnQuest*2);
+            }
+        }
+        QuestRunning = false;
     }
 }
