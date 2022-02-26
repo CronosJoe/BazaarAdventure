@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0d538e1a415c9b47b08e91241a02d6c, type: 3}
-  m_Name: Apple
+  m_Script: {fileID: 11500000, guid: 8a95827bdf4d70a47b507de80a48f952, type: 3}
+  m_Name: Hammer
   m_EditorClassIdentifier: 
-  itemName: Apple
-  cost: 50
-  type: 0
-  description: This apple is for testing
-  amountCap: 64
-  restoreHealthValue: 3
+  itemName: Hammer
+  cost: 200
+  type: 1
+  description: 
+  amountCap: 4
+  atkBonus: 1
+  defBonus: 1

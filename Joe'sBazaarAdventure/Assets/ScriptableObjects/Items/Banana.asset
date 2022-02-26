@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0d538e1a415c9b47b08e91241a02d6c, type: 3}
-  m_Name: Apple
+  m_Name: Banana
   m_EditorClassIdentifier: 
-  itemName: Apple
-  cost: 50
+  itemName: Banana
+  cost: 55
   type: 0
-  description: This apple is for testing
-  amountCap: 64
-  restoreHealthValue: 3
+  description: 
+  amountCap: 30
+  restoreHealthValue: 0

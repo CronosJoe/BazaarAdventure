@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7698b44e5221307479111f8effbfaec3, type: 3}
+  m_Name: TrashMerchant
+  m_EditorClassIdentifier: 
+  merchantInventory: {fileID: 11400000, guid: f1ed669b282beb84abaa7654503a91f4, type: 2}
+  merchantSprite: {fileID: -6376770605532981231, guid: fea4d9c8041ef174dba352a8b0e5c2e5, type: 3}
+  sellableItems:
+  - {fileID: 11400000, guid: 6d18bbcbdf539e24db512826789d9e80, type: 2}
+  - {fileID: 11400000, guid: e4f45ef83b4336146b68d41091a039b3, type: 2}
+  favoredItemModifier: 0.2
+  exchangeRate: 0.4
+  favoredItem: 3

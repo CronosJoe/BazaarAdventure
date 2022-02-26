@@ -13,10 +13,33 @@ public class InventoryObject : ScriptableObject
     {
         for (int i = 0; i < Container.Count; i++) 
         {
-            if(Container[i].item == _item && Container[i].item.amountCap > Container[i].amount)
+            if(Container[i].item == _item && Container[i].item.amountCap > Container[i].amount) //check if we have space available in our current item slot
             {
-                Container[i].AddAmount(_amount);
-                return;
+                int currentSlotSpace = _item.amountCap-Container[i].amount;//the max space minus the current amount of items
+                if (_amount <= currentSlotSpace) //if less then current slot amount MOST COMMON
+                {
+                    Container[i].AddAmount(_amount);
+                    return;
+                }
+                else //this will handle if we have more the current slot amount and will likely need to be in a loop
+                {
+                    bool notDone = false;
+                    int remainderAmount = _amount - currentSlotSpace;
+                    Container[i].AddAmount(currentSlotSpace);
+                    while (!notDone)
+                    {
+                        if (remainderAmount <= _item.amountCap) //if we're on our last iteration this will end it
+                        {
+                            AddNewSlot(_item, remainderAmount);
+                            return; //get us outta here Scotty or whoever else is out there!
+                        }
+                        else //if the remainder is greater than the cap
+                        {
+                            remainderAmount -= _item.amountCap;
+                            AddNewSlot(_item, _item.amountCap);
+                        }
+                    }
+                }
             }
         }
         AddNewSlot(_item, _amount);
@@ -24,9 +47,13 @@ public class InventoryObject : ScriptableObject
     //Adding a new inventory slot to the list
     private void AddNewSlot(ItemObject _item, int _amount) 
     {
-        if (!CheckIfInventoryFull()) //to confirm we don't go over cap
+        if (!CheckIfInventoryFull()) //to confirm we don't go over cap, this only checks if ever slot has something in it
         {
             Container.Add(new InventorySlot(_item, _amount));
+        }
+        else 
+        {
+            Debug.Log("You went over slot count! Implent the behavior you'd like here InventoryObject Line 56");
         }
     }
     //removing items

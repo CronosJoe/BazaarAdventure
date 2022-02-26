@@ -17,7 +17,7 @@ MonoBehaviour:
   sellableItems:
   - {fileID: 11400000, guid: 4c01b5d987cdecc4b99f0676030e2e3e, type: 2}
   - {fileID: 11400000, guid: 80417da4481749d42922ed7f1d1760bb, type: 2}
-  favoredItemModifier: 20
-  unfavoredItemMod: 30
-  exchangeRate: 6
-  favoredItem: 0
+  - {fileID: 11400000, guid: c7fea36c8cfa0fe43af969f159d24185, type: 2}
+  favoredItemModifier: 0.4
+  exchangeRate: 0.39
+  favoredItem: 1

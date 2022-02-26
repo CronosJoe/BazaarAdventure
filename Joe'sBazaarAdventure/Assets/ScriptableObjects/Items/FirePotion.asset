@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9335f5eacae2db444a4cc7d797f521a1, type: 3}
   m_Name: FirePotion
   m_EditorClassIdentifier: 
-  name: Fire Potion
+  itemName: Fire Potion
   cost: 75
   type: 2
   description: Basically a molotov

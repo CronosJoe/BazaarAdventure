@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Random = System.Random;
+using UnityEngine.InputSystem;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,6 +43,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject questButtons;
     [SerializeField] private GameObject questDisplay;
     [SerializeField] private GameObject itemTypeOfDay;
+    [SerializeField] private GameObject gameWonScreen;
+    [SerializeField] private TMP_Text gameWonText;
+    [Space(10)]
+    [SerializeField] private PlayerInput inputTracker;
     public MerchantScript CurrentMerchant
     {
         get => merchants[currentMerchantIndex];
@@ -76,6 +82,28 @@ public class GameManager : MonoBehaviour
     public SpriteRenderer merchantDisplay;
 
     private int currentItemIndex;
+    private void OnEnable() //this will enable all of our input events when the object is enabled in the scene
+    {
+        inputTracker.currentActionMap["Quit"].performed += QuitGame;
+    }
+
+
+    private void OnDisable() //this will let me disable our input events when the object leaves
+    {
+        try
+        {
+            inputTracker.currentActionMap["Quit"].performed -= QuitGame;
+        }
+        catch (NullReferenceException)
+        {
+            Debug.LogWarning("Failed to unsubscribe from the input event methods due to the input manager being removed first, this will always occur in non builds", this);
+        }
+    } 
+
+    private void QuitGame(InputAction.CallbackContext obj)
+    {
+        Application.Quit();
+    }
 
     private void Start()
     {
@@ -93,10 +121,10 @@ public class GameManager : MonoBehaviour
         DisplayInventory();
         UpdatePlayerBalanceDisplay();
     }
+
     public void StartNewDay() 
     {
         Random rand = new Random();
-        //add a fine so the player can eventually "die" from not being rich
         AddPlayerMoney(playerReliefPackage);
         UpdatePlayerBalanceDisplay();
         playerReliefPackage /= 2;
@@ -105,13 +133,15 @@ public class GameManager : MonoBehaviour
             merchants[i].NewDayRestock();
         }
         DayCount++;
-        goldenType = (ItemType)rand.Next(0, 5);//we have 4 items, so max exclusive
+        goldenType = (ItemType)rand.Next(0, 4);//we have 4 items, so max exclusive
         questDisplay.GetComponent<TMP_Text>().text = QuestDayGoal-DayCount + " Days Left!";
         itemTypeOfDay.GetComponent<TMP_Text>().text = "Item Type of the Day: " + goldenType;
         if (DayCount == QuestDayGoal) 
         {
             GiveQuestReward();
         }
+        DisplayInventory();
+        //UpdateCurrentInventory();
     }
     public void AddPlayerMoney(int amount)
     {
@@ -160,11 +190,11 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateCurrentInventory() //passing in the inventory that we are updating from
     {
+        Debug.Assert(CurrentInventory.Container.Count <= displayedInventorySlots.Count, "Not enough slots for display!");
         for(int i = 0; i < CurrentInventory.Container.Count; i++) 
         {
             displayedInventorySlots[i].gameObject.SetActive(true);
-            displayedInventorySlots[i].textToUpdate.SetText(CurrentInventory.Container[i].item.itemName + " $" + CurrentInventory.Container[i].item.cost);
-            
+            displayedInventorySlots[i].textToUpdate.SetText(CurrentInventory.Container[i].item.itemName + " $" + CurrentMerchant.GetItemCost(CurrentInventory.Container[i].item, 1));
         }
         if (displayedInventorySlots.Count > CurrentInventory.Container.Count) 
         {
@@ -213,16 +243,20 @@ public class GameManager : MonoBehaviour
             case GameState.Buy:
                 if(playerMoney >= itemQuantity * curItem.item.cost) 
                 {
-                    TakePlayerMoney(itemQuantity * curItem.item.cost);
+                    TakePlayerMoney(CurrentMerchant.GetItemCost(curItem.item, itemQuantity));
 
                     playerInventory.AddItem(curItem.item, itemQuantity);
                     CurrentMerchant.merchantInventory.RemoveItemAmount(curItem.item, itemQuantity);
 
                     UpdateCurrentInventory();
+                    if(curItem.item.type == ItemType.Default && itemQuantity!=0)
+                    {
+                        GameWin();
+                    }
                 }
                 break;
             case GameState.Sell:
-                AddPlayerMoney(itemQuantity * curItem.item.cost);
+                AddPlayerMoney(CurrentMerchant.GetItemCost(curItem.item, itemQuantity));
                 playerInventory.RemoveItemAmount(curItem.item, itemQuantity);
                 UpdateCurrentInventory();
                 break;
@@ -269,5 +303,10 @@ public class GameManager : MonoBehaviour
             }
         }
         QuestRunning = false;
+    }
+    private void GameWin() 
+    {
+        gameWonScreen.SetActive(true);
+        gameWonText.SetText("You completed the game in "  + DayCount +" days!");
     }
 }

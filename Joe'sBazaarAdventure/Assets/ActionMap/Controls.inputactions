@@ -1,0 +1,33 @@
+{
+    "name": "Controls",
+    "maps": [
+        {
+            "name": "Quiting",
+            "id": "330b530c-9ecf-493c-a88b-3c3dac808433",
+            "actions": [
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "9b0d1ab0-ce2a-4542-bb41-78ca20fc482b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c87e4755-39f4-4661-ae70-f922d8f2dbb6",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -12,7 +12,6 @@ public class MerchantScript : ScriptableObject
     public List<ItemObject> sellableItems = new List<ItemObject>();
 
     public float favoredItemModifier;
-    public float unfavoredItemMod;
     public float exchangeRate;
     public ItemType FavoredItem => favoredItem;
     [SerializeField] ItemType favoredItem;
@@ -32,13 +31,20 @@ public class MerchantScript : ScriptableObject
     }
     public int GetItemCost(ItemObject item, int amount) 
     {
-        if(item.type == favoredItem) 
+        if (item.type == favoredItem)
         {
-            return (int)((exchangeRate + favoredItemModifier) * item.cost * amount);
+            if (GameManager.instance.goldenType == favoredItem && GameManager.instance.currentState == GameManager.GameState.Sell)
+            {
+                return (int)((exchangeRate + favoredItemModifier + .6f) * item.cost * amount);//.6f is my golden modifier
+            }
+            else 
+            {
+                return (int)((exchangeRate + favoredItemModifier) * item.cost * amount);
+            }
         }
         else
         {
-            return (int)((exchangeRate - unfavoredItemMod) * item.cost * amount);
+            return (int)((item.cost * exchangeRate) * amount);
         }
     }
     public void NewDayRestock() 
@@ -46,10 +52,11 @@ public class MerchantScript : ScriptableObject
         //might want to add something to change modifiers here
         merchantInventory.ClearInventory(); //empty the inventory first
         Random rand =  new Random();
-        for(int i =0; i<merchantInventory.inventorySize; i++) //be careful with this one, make sure inventory sizes are correct, might also want to make inventory sizes larger as days go on
+        exchangeRate = (float)Math.Round(rand.NextDouble(),2);
+        for(int i = 0; i<merchantInventory.inventorySize; i++) //be careful with this one, make sure inventory sizes are correct, might also want to make inventory sizes larger as days go on
         {
             ItemObject tmpItem = sellableItems[rand.Next(0, sellableItems.Count)];
-            merchantInventory.AddItem(tmpItem, rand.Next(tmpItem.amountCap / 2)); //might want to adjust this formula later
+            merchantInventory.AddItem(tmpItem, rand.Next(1, tmpItem.amountCap)); //might want to adjust this formula later
         }
     }
 }
